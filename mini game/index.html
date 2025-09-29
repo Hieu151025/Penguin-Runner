@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Penguin Runner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🐧 Penguin Runner – Nhảy (↑) / Cúi (↓) để né chướng ngại vật</h1>
+      <div class="hint">Mobile: chạm bên trái = Cúi, bên phải = Nhảy</div>
+    </header>
+
+    <canvas id="game" width="960" height="320" aria-label="Penguin Runner"></canvas>
+    <div class="hud">
+      <div>Điểm: <strong id="score">0</strong> · Kỷ lục: <strong id="best">0</strong></div>
+      <div class="btns">
+        <button id="pauseBtn">Tạm dừng</button>
+        <button id="restartBtn" class="primary">Chơi lại</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gọi file JS ở cuối body -->
+  <script src="script.js"></script>
+</body>
+</html>
