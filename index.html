@@ -1,29 +1,448 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Penguin Runner</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Phạm Công Hiếu — UX/UI Designer (HaraSocial, Haravan)</title>
+<meta name="description" content="CV điện tử của Phạm Công Hiếu ứng tuyển UX/UI Designer cho HaraSocial (Haravan)."/>
+<style>
+/* ========= TOKENS ========= */
+:root{
+  --bg:#0b1020; --bg2:#0e1428;
+  --paper:#0f172a; --ink:#e6efff; --muted:#aab7d3; --line:#23314d;
+  --brand:#7aa0ff; --accent:#24d1b3; --warn:#ffd166;
+  --chip:#13213d; --chip-ink:#cfe3ff;
+  --radius:18px; --shadow:0 16px 40px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  color:var(--ink);
+  background:
+    radial-gradient(1100px 500px at 10% -10%, #15265a 0%, transparent 60%),
+    radial-gradient(900px 500px at 95% 0%, #0c2f4e 0%, transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  min-height:100vh;
+}
+a{color:inherit}
+
+/* ========= NAV ========= */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px) saturate(1.2);
+  background:linear-gradient(180deg,rgba(10,13,24,.9),rgba(10,13,24,.55));
+  border-bottom:1px solid rgba(255,255,255,.08);}
+.nav-inner{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;color:#eaf0ff}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+.badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;
+  background:linear-gradient(135deg,var(--brand),var(--accent));color:#091021;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#eaf0ff;
+  padding:8px 12px;border-radius:12px;font-weight:600;cursor:pointer}
+.btn--solid{border:0;background:linear-gradient(135deg,var(--brand),var(--accent));color:#091021}
+
+/* ========= LAYOUT ========= */
+.container{max-width:1180px;margin:0 auto;padding:22px}
+.grid{display:grid;gap:22px}
+.layout{grid-template-columns:330px 1fr}
+@media (max-width:1000px){.layout{grid-template-columns:1fr}}
+
+/* ========= CARDS ========= */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card .head{padding:14px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+.card .head h2{margin:0;font-size:18px;letter-spacing:.2px}
+.card .body{padding:16px 16px 12px}
+.muted{color:var(--muted)}
+.hr{height:1px;background:var(--line);margin:10px 0}
+
+/* ========= SIDEBAR ========= */
+.sidebar .top{display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:center;padding:18px}
+.avatar{
+  width:84px;height:84px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.22);font-size:28px;font-weight:900;letter-spacing:.4px}
+.name{margin:0;font-size:22px}
+.role{margin:4px 0 0 0;color:#cfe3ff}
+.kv{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:center;margin:6px 0}
+.kv .icon{width:26px;height:26px;border-radius:7px;background:#111d36;display:grid;place-items:center;opacity:.95}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--chip);border:1px solid var(--line);color:var(--chip-ink);padding:6px 10px;border-radius:999px;font-size:13px}
+
+/* ========= MAIN CONTENT ========= */
+.section{margin:0 0 18px}
+.h3{margin:0;font-size:16px}
+.bullets{margin:6px 0 0 18px}
+.bullets li{margin:6px 0}
+.kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.kpi .pill{background:#0f1c36;border:1px solid var(--line);padding:6px 10px;border-radius:10px;font-size:13px}
+.meta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+
+/* ========= TIMELINE ========= */
+.timeline .item{border-left:3px solid var(--brand);padding-left:12px;margin:12px 0}
+.timeline .title{display:flex;justify-content:space-between;gap:10px}
+.timeline .time{font-size:13px;color:var(--muted)}
+
+/* ========= SKILLS ========= */
+.skill{margin:10px 0 12px}
+.skill-top{display:flex;justify-content:space-between}
+.bar{height:10px;background:#0c1530;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0%;transition:width .9s ease}
+
+/* ========= PORTFOLIO ========= */
+.pf{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media (max-width:1000px){.pf{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.pf{grid-template-columns:1fr}}
+.pf-card{border:1px solid var(--line);border-radius:14px;background:#0d152b;box-shadow:var(--shadow);overflow:hidden}
+.pf-media{height:150px;background:
+  linear-gradient(135deg,rgba(122,160,255,.22),rgba(36,209,179,.18)),
+  repeating-linear-gradient(45deg,transparent 0 7px,rgba(255,255,255,.05) 7px 14px);}
+.pf-body{padding:12px 14px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;background:#0c1734}
+
+/* ========= FOOTER ========= */
+.footer{color:#cfe3ff;opacity:.9;text-align:center;padding:18px 0}
+
+/* ========= PRINT ========= */
+@media print{
+  .nav{display:none}
+  body{background:#fff;color:#000}
+  .card{box-shadow:none}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>🐧 Penguin Runner – Nhảy (↑) / Cúi (↓) để né chướng ngại vật</h1>
-      <div class="hint">Mobile: chạm bên trái = Cúi, bên phải = Nhảy</div>
-    </header>
-
-    <canvas id="game" width="960" height="320" aria-label="Penguin Runner"></canvas>
-    <div class="hud">
-      <div>Điểm: <strong id="score">0</strong> · Kỷ lục: <strong id="best">0</strong></div>
-      <div class="btns">
-        <button id="pauseBtn">Tạm dừng</button>
-        <button id="restartBtn" class="primary">Chơi lại</button>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="badge">PH</div> Hiếu — UX/UI</div>
+      <div class="actions">
+        <button class="btn" id="darkBtn">🌙 Dark</button>
+        <button class="btn" id="atsBtn" title="Bản văn bản thuần (ATS)">📄 ATS</button>
+        <button class="btn btn--solid" id="printBtn">🖨️ In / Lưu PDF</button>
       </div>
     </div>
   </div>
 
-  <!-- Gọi file JS ở cuối body -->
-  <script src="script.js"></script>
+  <div class="container grid layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="card">
+        <div class="top">
+          <div class="avatar">PH</div>
+          <div>
+            <h1 class="name">Phạm Công Hiếu</h1>
+            <div class="role">UX/UI Designer — Ứng tuyển HaraSocial (Haravan)</div>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div class="body">
+          <div class="kv">
+            <div class="icon">📍</div>
+            <div>Biên Hòa, Đồng Nai, Việt Nam</div>
+          </div>
+          <div class="kv">
+            <div class="icon">🎂</div>
+            <div>15/10/2005 <span id="age" class="muted"></span></div>
+          </div>
+          <div class="kv">
+            <div class="icon">✉️</div>
+            <div><a href="mailto:phamconghieu151025@gmail.com">phamconghieu151025@gmail.com</a></div>
+          </div>
+          <div class="kv">
+            <div class="icon">📞</div>
+            <div><a href="tel:0933238362">0933238362</a></div>
+          </div>
+          <div class="kv">
+            <div class="icon">🔗</div>
+            <div class="chips">
+              <span>Behance / Figma: cung cấp khi cần</span>
+            </div>
+          </div>
+          <div class="hr"></div>
+          <div class="kv">
+            <div class="icon">🎯</div>
+            <div>Mục tiêu 1–2 năm: làm chủ research→wireframe→prototype→handoff; 3 năm: hướng UX Lead, tối ưu trải nghiệm thương mại xã hội.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="head"><h2>🎓 Học vấn</h2></div>
+        <div class="body">
+          <div class="h3"><strong>Đại học Lạc Hồng (LHU)</strong> — CNTT</div>
+          <div class="meta">2023 – nay</div>
+          <ul class="bullets">
+            <li>GPA: <strong>7.88 / 10</strong></li>
+            <li>Học bổng Khuyến khích Học tập (2024)</li>
+            <li>CLB IT; tham gia dự án UX nội bộ</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="head"><h2>🌐 Ngôn ngữ</h2></div>
+        <div class="body">
+          <ul class="bullets">
+            <li><strong>Tiếng Việt</strong> — Bản ngữ</li>
+            <li><strong>Tiếng Anh</strong> — IELTS (2024), giao tiếp & viết chuyên môn UX</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="head"><h2>🏆 Chứng chỉ & Hoạt động</h2></div>
+        <div class="body">
+          <ul class="bullets">
+            <li>IELTS Certificate — 2024</li>
+            <li>UX Foundations — 2024</li>
+            <li>Top 10 “Design for Change 2024” (UI Concept)</li>
+            <li>CLB IT LHU — Workshop UI cơ bản; mentoring bạn mới</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+      <!-- SUMMARY -->
+      <section class="card section">
+        <div class="head"><h2>🔎 Tóm tắt năng lực</h2></div>
+        <div class="body">
+          <p>Tư duy hệ thống & hướng dữ liệu; thành thạo Figma (Auto Layout, Components, Variants, Prototype), UI responsive, Design System; quen A/B test, đọc số liệu (CTR, time-on-page, conversion), microcopy; phối hợp chặt chẽ dev/marketing, giao tiếp tiếng Anh tốt.</p>
+          <div class="kpi">
+            <div class="pill">+35% time-on-page</div>
+            <div class="pill">-25% bounce rate</div>
+            <div class="pill">FPS webgame ~60</div>
+            <div class="pill">Giảm 3 bước checkout</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE / PROJECTS -->
+      <section class="card section">
+        <div class="head"><h2>💼 Kinh nghiệm / Dự án</h2></div>
+        <div class="body timeline">
+          <div class="item">
+            <div class="title">
+              <div class="h3"><strong>Student Vibes — UX/UI Web App</strong></div>
+              <div class="time">03/2024 – 08/2024</div>
+            </div>
+            <div class="meta">Thiết kế feed cộng đồng sinh viên, tối ưu hành vi Gen Z.</div>
+            <ul class="bullets">
+              <li>Research nhanh (poll/UGC), xây user flow, wireframe & prototype Figma.</li>
+              <li>Tối ưu đọc & nội dung: <strong>+35% time-on-page</strong>, <strong>-25% bounce</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="title">
+              <div class="h3"><strong>Penguin Runner — HTML/JS Mini Game</strong></div>
+              <div class="time">09/2024 – 10/2024</div>
+            </div>
+            <div class="meta">Game 2D web với UI rõ ràng & phản hồi thao tác mượt.</div>
+            <ul class="bullets">
+              <li>Tối ưu vòng lặp vẽ & input; <strong>FPS ~60</strong> ổn định.</li>
+              <li>HUD gọn, tương phản cao, dễ quan sát.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="title">
+              <div class="h3"><strong>HaraSocial Concept — Mobile Chat Commerce</strong></div>
+              <div class="time">01/2025 – 03/2025</div>
+            </div>
+            <div class="meta">Rút ngắn hành trình chốt đơn ngay trong khung chat.</div>
+            <ul class="bullets">
+              <li>Thiết kế màn: chat, giỏ nhanh, thanh toán 1 chạm.</li>
+              <li>Giảm <strong>3 bước</strong> thừa trong checkout; đề xuất <em>upsell</em> theo ngữ cảnh hội thoại.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="grid section" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="head"><h2>🛠️ Kỹ năng chuyên môn</h2></div>
+          <div class="body">
+            <div class="skill">
+              <div class="skill-top"><span>Figma / Prototyping</span><span>85%</span></div>
+              <div class="bar"><div class="fill" style="--w:85%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-top"><span>Wireframe / User Flow</span><span>88%</span></div>
+              <div class="bar"><div class="fill" style="--w:88%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-top"><span>HTML / CSS / JS</span><span>80%</span></div>
+              <div class="bar"><div class="fill" style="--w:80%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-top"><span>Design System</span><span>75%</span></div>
+              <div class="bar"><div class="fill" style="--w:75%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-top"><span>Usability Testing / A/B</span><span>72%</span></div>
+              <div class="bar"><div class="fill" style="--w:72%"></div></div>
+            </div>
+            <div class="chips" style="margin-top:10px">
+              <span>Responsive</span><span>Accessibility</span><span>Heuristic Review</span><span>Design Thinking</span><span>Microcopy</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head"><h2>🔧 Công cụ & Quy trình</h2></div>
+          <div class="body">
+            <ul class="bullets">
+              <li><strong>Figma</strong> (Auto Layout, Components/Variants, Prototype, Smart Animate)</li>
+              <li><strong>Handoff</strong> cho dev (inspect, tokens, redlines); phối hợp Git/issue</li>
+              <li><strong>Đọc số liệu</strong>: time-on-page, CTR, conversion; A/B nhanh</li>
+              <li><strong>Quy trình</strong>: Brief → Research → IA → Wireframe → Prototype → Test → Iterate → Handoff</li>
+            </ul>
+            <div class="hr"></div>
+            <div class="muted">“Thiết kế tốt giúp người dùng đạt mục tiêu nhanh, rõ ràng, vui vẻ.”</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section class="card section" id="portfolio">
+        <div class="head"><h2>🗂️ Portfolio tiêu biểu</h2></div>
+        <div class="body">
+          <div class="pf">
+            <div class="pf-card">
+              <div class="pf-media"></div>
+              <div class="pf-body">
+                <strong>Student Vibes – Web App</strong>
+                <div class="muted">Feed cộng đồng, tối ưu đọc & tương tác</div>
+                <div class="tags"><span class="tag">Figma</span><span class="tag">Prototype</span><span class="tag">Gen Z</span></div>
+              </div>
+            </div>
+            <div class="pf-card">
+              <div class="pf-media"></div>
+              <div class="pf-body">
+                <strong>Penguin Runner – Web Game</strong>
+                <div class="muted">UI rõ, phản hồi mượt, FPS ổn định</div>
+                <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+              </div>
+            </div>
+            <div class="pf-card">
+              <div class="pf-media"></div>
+              <div class="pf-body">
+                <strong>HaraSocial – Chat Commerce</strong>
+                <div class="muted">Checkout rút gọn, upsell theo ngữ cảnh</div>
+                <div class="tags"><span class="tag">Mobile</span><span class="tag">Flows</span><span class="tag">Microcopy</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="muted" style="margin-top:8px">*Link Figma/đồ án chi tiết sẽ cung cấp theo yêu cầu nhà tuyển dụng.</div>
+        </div>
+      </section>
+
+      <!-- EXTRA -->
+      <section class="grid section" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="head"><h2>📩 Thông tin thêm</h2></div>
+          <div class="body">
+            <ul class="bullets">
+              <li><strong>Thời gian bắt đầu:</strong> có thể đi làm ngay (linh hoạt lịch học)</li>
+              <li><strong>Hình thức:</strong> Onsite/Hybrid tại HCM</li>
+              <li><strong>Quan tâm:</strong> HaraSocial, chat-commerce, social CRM, growth UX</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="head"><h2>🗣️ Nhận xét (minh họa)</h2></div>
+          <div class="body">
+            <div class="bullets">
+              <li>“Prototype rõ ràng, dev nhận handoff mượt.” — Mentor lớp UX</li>
+              <li>“Làm việc có hệ thống, ưu tiên khả năng đọc & trải nghiệm.” — Trưởng nhóm</li>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card section">
+        <div class="head"><h2>💖 Sở thích</h2></div>
+        <div class="body">
+          <p>Khám phá app mới, nghiên cứu hành vi người dùng, vẽ UI concept, ghi chú microcopy, redesign các app quen dùng.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="footer">© <span id="year"></span> Phạm Công Hiếu • 0933238362 • <a href="mailto:phamconghieu151025@gmail.com">phamconghieu151025@gmail.com</a></div>
+
+<script>
+function ageFromDOB(d,m,y){
+  const t=new Date();let a=t.getFullYear()-y;
+  const had=(t.getMonth()+1>m)||((t.getMonth()+1===m)&&(t.getDate()>=d));if(!had)a--;
+  return a;
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  // tuổi + năm
+  const age=document.getElementById('age'); if(age) age.textContent='• '+ageFromDOB(15,10,2005)+' tuổi';
+  const year=document.getElementById('year'); if(year) year.textContent=new Date().getFullYear();
+
+  // dark
+  const darkBtn=document.getElementById('darkBtn');
+  darkBtn&&darkBtn.addEventListener('click',()=>{
+    const isDark=document.body.toggleAttribute('data-dark');
+    // switch theme tokens by toggling class on html/body if muốn; ở đây đơn giản đổi background
+    if(isDark){ document.body.style.filter='invert(0) hue-rotate(0deg)'; darkBtn.textContent='☀️ Light'; }
+    else{ document.body.style.filter=''; darkBtn.textContent='🌙 Dark'; }
+  });
+
+  // print
+  const printBtn=document.getElementById('printBtn'); printBtn&&printBtn.addEventListener('click',()=>window.print());
+
+  // animate skills
+  document.querySelectorAll('.fill').forEach(el=>{
+    const w=getComputedStyle(el).getPropertyValue('--w')||'70%';
+    requestAnimationFrame(()=>{ el.style.width='0%'; requestAnimationFrame(()=> el.style.width=w); });
+  });
+
+  // ATS text
+  const atsBtn=document.getElementById('atsBtn');
+  atsBtn&&atsBtn.addEventListener('click',()=>{
+    const text = `
+PHAM CONG HIEU — UX/UI DESIGNER (HARASOCIAL, HARAVAN)
+Location: Bien Hoa, Dong Nai | Phone: 0933238362 | Email: phamconghieu151025@gmail.com
+DOB: 15/10/2005
+
+CAREER OBJECTIVE
+Join HaraSocial to optimize chat-commerce UX; 1–2y master research→wireframe→prototype→handoff; 3y aim for UX Lead.
+
+EDUCATION
+- Lac Hong University (IT), 2023–present; GPA 7.88/10; Merit Scholarship 2024.
+
+EXPERIENCE / PROJECTS
+- Student Vibes (03–08/2024): +35% time-on-page, -25% bounce; Figma flows/wireframes/prototypes for Gen Z.
+- Penguin Runner (09–10/2024): 2D web game; stable ~60 FPS; clear HUD & contrast.
+- HaraSocial Concept (01–03/2025): Reduced 3 checkout steps; context-aware upsell in chat.
+
+SKILLS
+- Figma, Wireframe/User Flow, HTML/CSS/JS, Design System, Usability Testing, A/B testing, Responsive, Accessibility, Design Thinking, Microcopy.
+
+TOOLS & PROCESS
+- Figma components/variants, Smart Animate; developer handoff (inspect/tokens/redlines); analytics basics (CTR, time-on-page, conversion); Brief→Research→IA→Wireframe→Prototype→Test→Iterate→Handoff.
+
+AWARDS / CERTS / ACTIVITIES
+- IELTS (2024); UX Foundations (2024); Top 10 "Design for Change 2024"; LHU IT Club (workshops, mentoring).
+
+LANGUAGES
+- Vietnamese (Native), English (IELTS).
+
+EXTRAS
+- Availability: Immediate | Mode: Onsite/Hybrid (HCM) | Interests: chat-commerce, social CRM, growth UX.
+`.trim();
+    const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const w=window.open(url,'_blank');
+    if(!w) alert('Hãy cho phép popup để xem bản ATS.');
+  });
+});
+</script>
 </body>
 </html>
